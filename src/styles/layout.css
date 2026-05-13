@@ -1,0 +1,40 @@
+.app {
+  min-height: 100vh;
+  padding: 24px 32px 28px;
+  background: radial-gradient(circle at top, #ffffff 0, #f9f6ef 36%, #f2eee6 100%);
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 540px minmax(0, 1fr);
+  gap: 22px;
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+}
+.panel {
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #e2ddd5;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(62, 50, 34, 0.07);
+  overflow: hidden;
+}
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.panel-head h2 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: -0.6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panel-head h2 svg {
+  color: #e66a00;
+}

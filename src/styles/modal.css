@@ -1,0 +1,260 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(21, 19, 18, 0.56);
+  backdrop-filter: blur(3px);
+  display: grid;
+  place-items: center;
+  padding: 28px;
+}
+
+.review-modal {
+  position: relative;
+  width: min(920px, 92vw);
+  max-height: 92vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 22px;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.32);
+  padding: 28px 32px 24px;
+}
+
+.close-btn {
+  position: absolute;
+  right: 24px;
+  top: 22px;
+  border: 0;
+  background: transparent;
+  color: #28231f;
+  cursor: pointer;
+}
+
+.modal-top {
+  display: grid;
+  grid-template-columns: 170px 1fr auto;
+  gap: 22px;
+  align-items: start;
+  padding-right: 44px;
+  margin-bottom: 20px;
+}
+
+.modal-top .food-thumb {
+  height: 125px;
+  border-radius: 15px;
+}
+
+.modal-title-block h2 {
+  margin: 6px 0 6px;
+  font-size: 30px;
+  letter-spacing: -1px;
+}
+
+.modal-title-block p {
+  margin: 0;
+  color: #6c625a;
+  font-weight: 750;
+}
+
+.modal-tags span {
+  background: #f7e7d8;
+  color: #9a511c;
+}
+
+.modal-score {
+  text-align: center;
+  margin-top: 18px;
+}
+
+.modal-score div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: center;
+  color: white;
+  font-weight: 950;
+  font-size: 21px;
+  padding: 10px 18px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #e86a00, #f29d26);
+}
+
+.modal-score p {
+  margin: 8px 0 0;
+  color: #8a8179;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ai-review-box {
+  border: 1px solid #e5ded3;
+  border-radius: 15px;
+  padding: 17px 18px;
+  margin-bottom: 13px;
+}
+
+.ai-review-box h3,
+.keyword-section h3,
+.review-section h3 {
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 17px;
+}
+
+.ai-review-box h3 span {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  background: #f07a12;
+  color: white;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.ai-review-box p {
+  margin: 0;
+  line-height: 1.78;
+  color: #342e29;
+  font-size: 15px;
+}
+
+.pros-cons-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 17px;
+}
+
+.analysis-box {
+  border-radius: 15px;
+  padding: 16px 18px;
+}
+
+.analysis-box h3 {
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 17px;
+}
+
+.analysis-box ul {
+  margin: 0;
+  padding-left: 19px;
+  line-height: 1.75;
+  font-size: 14px;
+}
+
+.pros-box {
+  background: #f1f8ed;
+  border: 1px solid #d8ead0;
+  color: #2a5f28;
+}
+
+.cons-box {
+  background: #fff5ec;
+  border: 1px solid #f4d4b7;
+  color: #a54a0e;
+}
+
+.keyword-section {
+  border-top: 1px solid #eee7de;
+  padding-top: 16px;
+  margin-bottom: 17px;
+}
+
+.keyword-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.keyword-row span {
+  background: #f2eadf;
+  color: #5c4a37;
+  border-radius: 999px;
+  padding: 7px 13px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.review-section {
+  margin-bottom: 16px;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 13px;
+}
+
+.quote-card {
+  background: #faf7f2;
+  border: 1px solid #eee5dc;
+  border-radius: 14px;
+  padding: 15px;
+}
+
+.quote-card p {
+  margin: 0 0 12px;
+  line-height: 1.55;
+  color: #332d28;
+  font-size: 14px;
+}
+
+.quote-card span {
+  color: #8a7c70;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.insight-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid #e8e1d8;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-top: 14px;
+}
+
+.insight-card {
+  min-height: 74px;
+  padding: 13px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border-right: 1px solid #e8e1d8;
+}
+
+.insight-card:last-child {
+  border-right: 0;
+}
+
+.insight-card svg {
+  color: #e66a00;
+  flex: none;
+}
+
+.insight-card strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
+.insight-card p {
+  margin: 0;
+  color: #5f564f;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.modal-foot {
+  display: flex;
+  justify-content: space-between;
+  color: #8a8179;
+  font-size: 12px;
+  margin-top: 18px;
+}

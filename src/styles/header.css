@@ -1,0 +1,65 @@
+.top-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 14px;
+  min-height: 62px;
+}
+
+.brand {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  color: white;
+  background: linear-gradient(135deg, #e66a00, #f39b27);
+  box-shadow: 0 8px 20px rgba(225, 101, 0, 0.2);
+}
+
+.brand-name {
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: -0.8px;
+}
+
+.brand-name span {
+  color: #e66a00;
+}
+
+.brand-sub {
+  color: #8d8178;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.hero-title {
+  text-align: center;
+}
+
+.hero-title h1 {
+  margin: 0;
+  font-size: 40px;
+  letter-spacing: -2px;
+  font-weight: 900;
+}
+
+.hero-title h1 span {
+  color: #e66a00;
+}
+
+.hero-title p {
+  margin: 5px 0 0;
+  color: #80766e;
+  font-size: 13px;
+}
