@@ -32,6 +32,18 @@
   color: #504842;
   font-weight: 750;
   cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.category-chip:hover {
+  border-color: #e66a00;
+}
+
+.category-chip.active {
+  background: #e66a00;
+  border-color: #e66a00;
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(230, 106, 0, 0.18);
 }
 
 .restaurant-list {
@@ -41,6 +53,7 @@
   max-height: calc(100vh - 345px);
   overflow-y: auto;
   padding-right: 4px;
+  padding-top: 4px;
 }
 
 .restaurant-card {

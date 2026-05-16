@@ -1,21 +1,39 @@
 import { List, SlidersHorizontal } from "lucide-react";
 import RestaurantCard from "./RestaurantCard";
-import { categories } from "../data/restaurants";
 
-export default function RestaurantList({ filtered, category, setCategory, selectedId, onOpen, onHover }) {
+export default function RestaurantList({
+  filtered,
+  categories,
+  category,
+  setCategory,
+  selectedId,
+  onOpen,
+  onHover
+}) {
+  // categories가 안 넘어오면(호환) filtered 기준으로 fallback
+  const categoryItems =
+    categories && categories.length > 0
+      ? categories
+      : ["전체", ...Array.from(new Set(filtered.map((r) => r.category)))];
+
   return (
     <aside className="list-panel panel">
       <div className="panel-head">
-        <h2><List size={21} /> 음식점 리스트</h2>
-        <button className="sort-btn"><SlidersHorizontal size={15} /> 최신순</button>
+        <h2>
+          <List size={21} /> 음식점 리스트
+        </h2>
+        <button className="sort-btn" type="button">
+          <SlidersHorizontal size={15} /> 최신순
+        </button>
       </div>
 
       <div className="category-row">
-        {categories.map((item) => (
+        {categoryItems.map((item) => (
           <button
             key={item}
-            onClick={() => setCategory(item)}
+            onClick={() => setCategory((prev) => (prev === item ? "전체" : item))}
             className={`category-chip ${category === item ? "active" : ""}`}
+            type="button"
           >
             {item}
           </button>

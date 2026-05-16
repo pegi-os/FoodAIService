@@ -1,23 +1,30 @@
 
 .map-panel {
-  padding: 18px 18px 20px;
+  padding: 18px;
   height: calc(100vh - 215px);
   min-height: 690px;
 }
 
 .map-head {
-  margin-bottom: 14px;
+  margin-bottom: 18px;
 }
 
 .fake-map {
-  height: calc(100vh - 285px);
+  /* height: calc(100vh - 303px);  */
+  height: 100vh; 
   min-height: 615px;
   border-radius: 12px;
   overflow: hidden;
   position: relative;
-  background: #edf1e9;
+  background: #fff;
   border: 1px solid #e4ded4;
   isolation: isolate;
+}
+
+.kakao-map {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
 }
 .fake-map::before {
   content: "";
@@ -30,6 +37,7 @@
     linear-gradient(112deg, transparent 0 43%, rgba(255, 255, 255, 0.78) 43% 45%, transparent 45% 100%),
     linear-gradient(0deg, transparent 0 48%, rgba(255, 255, 255, 0.65) 48% 50%, transparent 50% 100%);
   opacity: 0.9;
+  display: none;
 }
 
 .road {
