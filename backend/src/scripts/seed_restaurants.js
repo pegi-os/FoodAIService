@@ -1,77 +1,106 @@
 const { db } = require("../db/sqlite");
 
-// 간단 더미 데이터(필요하면 lat/lng 수정)
 const seedRestaurants = [
   {
+    id: 1,
     name: "성대 자연과학캠퍼스 학식",
     address: "경기 수원시 장안구 서부로 2066 성균관대학교 자연과학캠퍼스",
     category: "학식",
     lat: 37.293889,
-    lng: 126.974444
+    lng: 126.974444,
+    agent1: {
+      summary:
+        "빠르고 저렴하게 든든한 한 끼를 해결하기 좋은 곳입니다. 특별한 분위기보다는 실용적인 식사에 강점이 있고, 수업 전후 혼밥이나 점심 식사에 잘 맞습니다.",
+      pros: ["빠른 식사 가능", "가성비가 좋음", "든든한 한 끼에 적합"],
+      cons: ["분위기는 평범함", "메뉴 선택 폭이 날마다 다를 수 있음"],
+      keywords: ["학식", "가성비", "혼밥", "점심", "든든함", "빠른 식사"],
+      recommendedFor: ["혼밥", "점심", "든든한 식사", "시간이 없을 때"],
+      atmosphere: "캐주얼하고 실용적인 분위기",
+      valueForMoney: "좋음",
+      revisitIntent: "보통 이상"
+    }
   },
   {
-    name: "율전동 카페(더미)",
+    id: 2,
+    name: "율전동 조용한 카페",
     address: "경기 수원시 장안구 율전동",
     category: "카페",
     lat: 37.2972,
-    lng: 126.9712
+    lng: 126.9712,
+    agent1: {
+      summary:
+        "조용한 분위기에서 커피와 디저트를 즐기기 좋은 카페입니다. 좌석이 비교적 넉넉하고 대화, 공부, 작업처럼 머무르는 목적에 잘 맞습니다.",
+      pros: ["조용한 분위기", "커피와 디저트가 무난함", "작업하기 좋은 좌석"],
+      cons: ["든든한 식사 메뉴는 부족함", "식사 목적보다는 휴식 목적에 가까움"],
+      keywords: ["카페", "커피", "디저트", "조용함", "공부", "작업", "기분 전환"],
+      recommendedFor: ["공부", "작업", "데이트", "기분 전환", "가벼운 대화"],
+      atmosphere: "조용하고 차분함",
+      valueForMoney: "보통",
+      revisitIntent: "높음"
+    }
   },
   {
-    name: "수원역 맛집(더미)",
+    id: 3,
+    name: "수원역 빠른 한끼",
     address: "경기 수원시 팔달구 매산로1가 수원역",
     category: "식당",
     lat: 37.2663,
-    lng: 127.0000
+    lng: 127.0,
+    agent1: {
+      summary:
+        "접근성이 좋고 가볍게 한 끼 먹기 좋은 식당입니다. 오래 머무르기보다는 빠르게 식사하고 이동해야 할 때 적합합니다.",
+      pros: ["접근성이 좋음", "빠른 식사 가능", "혼밥에 부담이 적음"],
+      cons: ["특별한 분위기는 약함", "붐비는 시간대가 있을 수 있음"],
+      keywords: ["식당", "빠른 식사", "혼밥", "접근성", "점심", "가벼운 식사"],
+      recommendedFor: ["혼밥", "빠른 식사", "이동 전 식사", "가벼운 점심"],
+      atmosphere: "캐주얼하고 회전이 빠름",
+      valueForMoney: "좋음",
+      revisitIntent: "보통"
+    }
+  },
+  {
+    id: 4,
+    name: "인계동 따뜻한 국밥",
+    address: "경기 수원시 팔달구 인계동",
+    category: "한식",
+    lat: 37.2655,
+    lng: 127.032,
+    agent1: {
+      summary:
+        "따뜻한 국물과 든든한 식사를 원하는 사람에게 잘 맞는 한식집입니다. 지치거나 추운 날, 위로가 되는 식사를 찾을 때 추천하기 좋습니다.",
+      pros: ["따뜻한 국물 메뉴", "든든한 식사", "혼밥도 가능"],
+      cons: ["가벼운 식사로는 조금 무거울 수 있음", "카페처럼 오래 머무르는 분위기는 아님"],
+      keywords: ["한식", "국물", "국밥", "따뜻함", "든든함", "혼밥", "위로"],
+      recommendedFor: ["추운 날", "지친 날", "든든한 식사", "따뜻한 음식"],
+      atmosphere: "편안하고 캐주얼함",
+      valueForMoney: "좋음",
+      revisitIntent: "높음"
+    }
+  },
+  {
+    id: 5,
+    name: "매탄동 매콤 치킨",
+    address: "경기 수원시 영통구 매탄동",
+    category: "치킨",
+    lat: 37.267,
+    lng: 127.043,
+    agent1: {
+      summary:
+        "매콤하고 자극적인 맛으로 스트레스 해소나 야식에 잘 맞는 치킨집입니다. 든든함보다는 맛의 강도와 기분 전환에 강점이 있습니다.",
+      pros: ["매콤한 소스", "야식에 적합", "맥주 안주로 좋음"],
+      cons: ["조용한 분위기는 아님", "가벼운 식사를 원할 때는 부담스러울 수 있음"],
+      keywords: ["치킨", "매운맛", "자극적", "야식", "맥주", "스트레스"],
+      recommendedFor: ["야식", "스트레스 해소", "매운 음식", "친구와 식사"],
+      atmosphere: "활기차고 캐주얼함",
+      valueForMoney: "보통",
+      revisitIntent: "보통 이상"
+    }
   }
 ];
 
-const seedAiSummariesByName = {
-  "성대 자연과학캠퍼스 학식": {
-    summary:
-      "인계동 치킨 연구소는 바삭한 튀김과 다양한 소스 조합에서 좋은 평가를 받습니다. 특히 야식이나 맥주 안주로 주문하는 고객이 많습니다.",
-    pros: ["튀김이 바삭해요", "소스 조합이 다양해요", "야식으로 만족도가 높아요"],
-    cons: ["배달 시간이 늦는 경우가 있어요", "식으면 만족도가 떨어질 수 있어요"],
-    keywords: ["치킨", "바삭함", "소스", "배달", "야식", "맥주안주"],
-    featuredReview: "소스가 맛있고 치킨이 바삭했어요. 다음에도 주문할 것 같아요.",
-    source: "카카오맵 리뷰",
-    writtenAt: "6일 전",
-    recommendedFor: ["야식", "배달", "맥주 안주"],
-    atmosphere: "캐주얼한",
-    valueForMoney: "좋음",
-    revisitIntent: "보통 이상 (73%)"
-  },
-  "율전동 카페(더미)": {
-    summary: "조용한 분위기에서 커피와 디저트를 즐기기 좋아요. 좌석이 넉넉한 편입니다.",
-    pros: ["커피가 깔끔해요", "좌석이 편해요"],
-    cons: ["주말엔 사람이 많아요"],
-    keywords: ["카페", "커피", "디저트", "조용함"],
-    featuredReview: "커피 맛이 무난하고 자리 많아서 작업하기 좋았어요.",
-    source: "네이버 리뷰",
-    writtenAt: "2주 전",
-    recommendedFor: ["공부", "데이트"],
-    atmosphere: "조용한",
-    valueForMoney: "보통",
-    revisitIntent: "높음"
-  },
-  "수원역 맛집(더미)": {
-    summary: "가볍게 한 끼 먹기 좋은 메뉴 구성이고 접근성이 좋아요.",
-    pros: ["역이랑 가까워요"],
-    cons: ["피크 시간엔 웨이팅이 있어요"],
-    keywords: ["역근처", "한끼", "웨이팅"],
-    featuredReview: "수원역 근처라 이동하다가 들르기 편했어요.",
-    source: "카카오맵 리뷰",
-    writtenAt: "1달 전",
-    recommendedFor: ["혼밥", "빠른 식사"],
-    atmosphere: "캐주얼한",
-    valueForMoney: "좋음",
-    revisitIntent: "보통"
-  }
-};
-
 const getOrCreateKeywordId = (keyword) => {
   db.prepare("INSERT OR IGNORE INTO keywords (keyword) VALUES (?)").run(keyword);
-  const row = db.prepare("SELECT id FROM keywords WHERE keyword = ?").get(keyword);
-  return row?.id ?? null;
+  return db.prepare("SELECT id FROM keywords WHERE keyword = ?").get(keyword)?.id ?? null;
 };
 
 const upsertAiSummary = (restaurantId, payload) => {
@@ -94,38 +123,38 @@ const upsertAiSummary = (restaurantId, payload) => {
     `
   ).run(
     restaurantId,
-    payload.summary ?? null,
-    JSON.stringify(payload.pros ?? []),
-    JSON.stringify(payload.cons ?? []),
-    JSON.stringify(payload.recommendedFor ?? []),
-    payload.atmosphere ?? null,
-    payload.valueForMoney ?? null,
-    payload.revisitIntent ?? null
+    payload.summary,
+    JSON.stringify(payload.pros),
+    JSON.stringify(payload.cons),
+    JSON.stringify(payload.recommendedFor),
+    payload.atmosphere,
+    payload.valueForMoney,
+    payload.revisitIntent
   );
 };
 
 const ensureRestaurantKeywords = (restaurantId, keywords) => {
+  db.prepare("DELETE FROM restaurant_keywords WHERE restaurant_id = ?").run(restaurantId);
   const insert = db.prepare(
     "INSERT OR IGNORE INTO restaurant_keywords (restaurant_id, keyword_id) VALUES (?, ?)"
   );
-  keywords.forEach((kw) => {
-    const keywordId = getOrCreateKeywordId(kw);
-    if (!keywordId) return;
-    insert.run(restaurantId, keywordId);
+
+  keywords.forEach((keyword) => {
+    const keywordId = getOrCreateKeywordId(keyword);
+    if (keywordId) insert.run(restaurantId, keywordId);
   });
 };
 
-const ensureFeaturedReview = (restaurantId, { content, source, writtenAt }) => {
-  const exists = db
-    .prepare(
-      "SELECT id FROM reviews WHERE restaurant_id = ? AND is_featured = 1 LIMIT 1"
-    )
-    .get(restaurantId);
-  if (exists) return;
-
+const ensureFeaturedReview = (restaurantId, restaurant) => {
+  db.prepare("DELETE FROM reviews WHERE restaurant_id = ? AND is_featured = 1").run(restaurantId);
   db.prepare(
     "INSERT INTO reviews (restaurant_id, source, content, is_featured, written_at) VALUES (?, ?, ?, 1, ?)"
-  ).run(restaurantId, source ?? null, content, writtenAt ?? null);
+  ).run(
+    restaurantId,
+    "Agent 1 dummy profile",
+    `${restaurant.agent1.summary} 추천 상황: ${restaurant.agent1.recommendedFor.join(", ")}`,
+    "dummy"
+  );
 };
 
 const main = () => {
@@ -143,47 +172,29 @@ const main = () => {
 
   db.exec("BEGIN");
   try {
-    // id를 고정해서(1~3) 매번 동일하게 테스트 가능하게 유지
-    seedRestaurants.forEach((r, idx) => {
+    seedRestaurants.forEach((restaurant) => {
       upsertRestaurant.run(
-        idx + 1,
-        r.name,
-        r.address,
-        r.category ?? null,
-        r.lat ?? null,
-        r.lng ?? null
+        restaurant.id,
+        restaurant.name,
+        restaurant.address,
+        restaurant.category,
+        restaurant.lat,
+        restaurant.lng
       );
-    });
-
-    // restaurants id 조회
-    const rows = db
-      .prepare("SELECT id, name FROM restaurants WHERE name IN (?, ?, ?)")
-      .all(seedRestaurants[0].name, seedRestaurants[1].name, seedRestaurants[2].name);
-    const idByName = new Map(rows.map((r) => [r.name, r.id]));
-
-    // AI 요약/키워드/대표리뷰 시드
-    Object.entries(seedAiSummariesByName).forEach(([name, payload]) => {
-      const restaurantId = idByName.get(name);
-      if (!restaurantId) return;
-
-      upsertAiSummary(restaurantId, payload);
-      ensureRestaurantKeywords(restaurantId, payload.keywords ?? []);
-      ensureFeaturedReview(restaurantId, {
-        content: payload.featuredReview,
-        source: payload.source,
-        writtenAt: payload.writtenAt
-      });
+      upsertAiSummary(restaurant.id, restaurant.agent1);
+      ensureRestaurantKeywords(restaurant.id, restaurant.agent1.keywords);
+      ensureFeaturedReview(restaurant.id, restaurant);
     });
 
     db.exec("COMMIT");
-  } catch (e) {
+  } catch (error) {
     db.exec("ROLLBACK");
-    throw e;
+    throw error;
   }
 
   const countRow = db.prepare("SELECT COUNT(*) AS count FROM restaurants").get();
-  // eslint-disable-next-line no-console
   console.log(`[seed] restaurants count: ${countRow.count}`);
+  console.log("[seed] dummy Agent 1 summaries are ready");
 };
 
 main();

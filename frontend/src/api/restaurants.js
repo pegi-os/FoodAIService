@@ -18,3 +18,14 @@ export async function createRestaurant(payload) {
   return json.data;
 }
 
+export async function recommendRestaurants(prompt) {
+  const res = await fetch(`${API_BASE_URL}/api/restaurants/recommendations`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt })
+  });
+  if (!res.ok) throw new Error(`POST /api/restaurants/recommendations failed (${res.status})`);
+  const json = await res.json();
+  return json.data;
+}
+

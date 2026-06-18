@@ -7,6 +7,21 @@ exports.list = (req, res) => {
   res.json({ data: rows });
 };
 
+exports.recommend = async (req, res) => {
+  const { prompt } = req.body ?? {};
+
+  if (!prompt || typeof prompt !== "string" || prompt.trim().length < 2) {
+    return res.status(400).json({ error: "INVALID_PROMPT" });
+  }
+
+  try {
+    const data = await restaurantService.recommend(prompt.trim());
+    res.json({ data });
+  } catch (error) {
+    res.status(500).json({ error: "RECOMMENDATION_FAILED" });
+  }
+};
+
 exports.create = (req, res) => {
   const { name, address, category, lat, lng } = req.body ?? {};
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MapPin, Minus, Plus, RotateCcw } from "lucide-react";
 
 export default function MapSection({ restaurants = [], selectedId, onHover, onOpen }) {
@@ -13,16 +13,19 @@ export default function MapSection({ restaurants = [], selectedId, onHover, onOp
 
   // 선택된 식당 말풍선 오버레이
   const overlayRef = useRef(null);
+  const apiKey = import.meta.env.VITE_KAKAO_API_KEY;
 
   // 로딩/에러 상태 표시용
-  const [mapStatus, setMapStatus] = useState("idle"); // idle | loading | ready | error
-  const [mapError, setMapError] = useState("");
+  const [mapStatus, setMapStatus] = useState(apiKey ? "loading" : "error"); // loading | ready | error
+  const [mapError, setMapError] = useState(
+    apiKey ? "" : "Missing VITE_KAKAO_API_KEY (check frontend/.env and restart dev server)"
+  );
 
   // 기본 뷰(초기 위치/레벨) - 성균관대 자연과학캠퍼스(수원)
   const defaultCenter = { lat: 37.293889, lng: 126.974444 };
   const defaultLevel = 5;
 
-  const ICONS = {
+  const ICONS = useMemo(() => ({
     coffee: [
       ["path", { d: "M10 2v2" }],
       ["path", { d: "M14 2v2" }],
@@ -77,9 +80,9 @@ export default function MapSection({ restaurants = [], selectedId, onHover, onOp
       ["path", { d: "m2.1 21.8 6.4-6.3" }],
       ["path", { d: "m19 5-7 7" }]
     ]
-  };
+  }), []);
 
-  const renderLucideSvg = (iconNode) =>
+  const renderLucideSvg = useCallback((iconNode) =>
     iconNode
       .map(([tag, attrs]) => {
         const attrString = Object.entries(attrs)
@@ -87,9 +90,9 @@ export default function MapSection({ restaurants = [], selectedId, onHover, onOp
           .join(" ");
         return `<${tag} ${attrString} />`;
       })
-      .join("");
+      .join(""), []);
 
-  const markerSvgDataUrl = (category) => {
+  const markerSvgDataUrl = useCallback((category) => {
     // 카테고리별 마커 아이콘(리스트 아이콘과 동일한 lucide 스타일: 배경 없음)
     const label = (category ?? "").toLowerCase();
     const iconKey =
@@ -116,23 +119,17 @@ export default function MapSection({ restaurants = [], selectedId, onHover, onOp
     `;
 
     return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
-  };
+  }, [ICONS, renderLucideSvg]);
 
   useEffect(() => {
     // 최초 렌더 이후 1회: SDK 로드 + 지도 초기화
-    setMapStatus("loading");
-    setMapError("");
-
     // 스크립트 로드가 안 끝나는 상황 대비 타임아웃
     const timeoutId = setTimeout(() => {
       setMapStatus("error");
       setMapError("Timeout while loading Kakao Maps");
     }, 8000);
 
-    const apiKey = import.meta.env.VITE_KAKAO_API_KEY;
     if (!apiKey) {
-      setMapStatus("error");
-      setMapError("Missing VITE_KAKAO_API_KEY (check frontend/.env and restart dev server)");
       clearTimeout(timeoutId);
       return () => clearTimeout(timeoutId);
     }
@@ -196,7 +193,7 @@ export default function MapSection({ restaurants = [], selectedId, onHover, onOp
       });
 
     return () => clearTimeout(timeoutId);
-  }, []);
+  }, [apiKey, defaultCenter.lat, defaultCenter.lng]);
 
   const zoomIn = () => {
     // 레벨 숫자가 작아질수록 확대
@@ -261,7 +258,7 @@ export default function MapSection({ restaurants = [], selectedId, onHover, onOp
 
       markersRef.current.push(marker);
     });
-  }, [restaurants, mapStatus, onHover, onOpen]);
+  }, [restaurants, mapStatus, onHover, onOpen, markerSvgDataUrl]);
 
   useEffect(() => {
     // 선택된 식당에 말풍선(오버레이) 표시

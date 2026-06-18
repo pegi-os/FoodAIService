@@ -8,6 +8,12 @@
     margin-bottom: 18px;
   }
 
+  .recommend-open-btn {
+    position: absolute;
+    right: 0;
+    top: 8px;
+  }
+
   .top-header {
     display: block;
   }
@@ -69,5 +75,20 @@
 
   .hero-title h1 {
     font-size: 31px;
+  }
+
+  .recommend-open-btn {
+    position: static;
+    margin-top: 14px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .recommend-modal {
+    padding: 24px 20px 22px;
+  }
+
+  .recommend-card {
+    grid-template-columns: 1fr;
   }
 }

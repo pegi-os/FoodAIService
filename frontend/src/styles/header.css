@@ -63,3 +63,32 @@
   color: #80766e;
   font-size: 13px;
 }
+
+.recommend-open-btn {
+  position: absolute;
+  right: 0;
+  top: 12px;
+  height: 42px;
+  border: 1px solid rgba(230, 106, 0, 0.24);
+  background: #fff;
+  color: #c55200;
+  border-radius: 10px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(120, 80, 28, 0.08);
+  transition: 0.16s ease;
+}
+
+.recommend-open-btn:hover {
+  transform: translateY(-1px);
+  border-color: #e66a00;
+  box-shadow: 0 12px 24px rgba(230, 106, 0, 0.14);
+}
+
+.recommend-open-btn svg {
+  color: #e66a00;
+}

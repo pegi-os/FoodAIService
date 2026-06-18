@@ -4,6 +4,7 @@ import SearchBar from "./components/SearchBar";
 import RestaurantList from "./components/RestaurantList";
 import MapSection from "./components/MapSection";
 import ReviewModal from "./components/ReviewModal";
+import RecommendationModal from "./components/RecommendationModal";
 import { getRestaurants } from "./api/restaurants";
 import "./styles/index.css";
 
@@ -47,6 +48,7 @@ export default function App() {
   const [category, setCategory] = useState("전체");
   const [selectedId, setSelectedId] = useState(0);
   const [modalRestaurant, setModalRestaurant] = useState(null);
+  const [recommendOpen, setRecommendOpen] = useState(false);
 
   const [dbRestaurants, setDbRestaurants] = useState([]);
 
@@ -83,8 +85,6 @@ export default function App() {
     });
   }, [restaurants, query, category]);
 
-  const selected = selectedId ? restaurants.find((item) => item.id === selectedId) : null;
-
   const openDetail = (restaurant) => {
     setSelectedId(restaurant.id);
     setModalRestaurant(restaurant);
@@ -92,7 +92,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <Header />
+      <Header onOpenRecommend={() => setRecommendOpen(true)} />
       <SearchBar query={query} setQuery={setQuery} />
 
       <main className="main-layout">
@@ -114,6 +114,7 @@ export default function App() {
       </main>
 
       <ReviewModal restaurant={modalRestaurant} onClose={() => setModalRestaurant(null)} />
+      <RecommendationModal open={recommendOpen} onClose={() => setRecommendOpen(false)} />
     </div>
   );
 }
