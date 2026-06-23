@@ -23,8 +23,8 @@
   display: grid;
   place-items: center;
   color: white;
-  background: linear-gradient(135deg, #e66a00, #f39b27);
-  box-shadow: 0 8px 20px rgba(225, 101, 0, 0.2);
+  background: linear-gradient(135deg, var(--skku-green-900), var(--skku-green-500));
+  box-shadow: 0 8px 20px rgba(11, 61, 37, 0.22);
 }
 
 .brand-name {
@@ -34,11 +34,11 @@
 }
 
 .brand-name span {
-  color: #e66a00;
+  color: var(--skku-green-600);
 }
 
 .brand-sub {
-  color: #8d8178;
+  color: var(--skku-muted);
   font-size: 12px;
   margin-top: 2px;
 }
@@ -55,11 +55,11 @@
 }
 
 .hero-title h1 span {
-  color: #e66a00;
+  color: var(--skku-green-600);
 }
 
 .hero-title p {
   margin: 5px 0 0;
-  color: #80766e;
+  color: var(--skku-muted);
   font-size: 13px;
 }

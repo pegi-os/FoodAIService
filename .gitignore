@@ -12,6 +12,19 @@ dist
 dist-ssr
 *.local
 
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Local development caches
+.vite/
+%TEMP%/
+
+# SQLite runtime files
+*.sqlite3-shm
+*.sqlite3-wal
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

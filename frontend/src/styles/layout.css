@@ -1,7 +1,9 @@
 .app {
   min-height: 100vh;
   padding: 24px 32px 28px;
-  background: radial-gradient(circle at top, #ffffff 0, #f9f6ef 36%, #f2eee6 100%);
+  background:
+    radial-gradient(circle at 50% -10%, rgba(134, 213, 165, 0.42), transparent 36%),
+    linear-gradient(180deg, #fbfefb 0%, #eef8f1 100%);
 }
 
 .main-layout {
@@ -12,11 +14,64 @@
   max-width: none;
   margin: 0 auto;
 }
+
+.data-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 auto 18px;
+  width: 100%;
+}
+
+.data-strip span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--skku-border);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--skku-green-800);
+  font-size: 0.85rem;
+}
+
+.app-error {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+
+.error-shell {
+  width: min(720px, calc(100vw - 2rem));
+  padding: 1.5rem;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid #eadfcd;
+  box-shadow: 0 18px 50px rgba(62, 50, 34, 0.12);
+}
+
+.error-shell h1 {
+  margin: 0 0 0.5rem;
+}
+
+.error-shell p {
+  margin: 0 0 1rem;
+  color: #6b5f52;
+}
+
+.error-shell pre {
+  margin: 0;
+  padding: 1rem;
+  overflow: auto;
+  border-radius: 14px;
+  background: #f8f5ef;
+  color: #842029;
+  white-space: pre-wrap;
+}
 .panel {
   background: rgba(255, 255, 255, 0.94);
-  border: 1px solid #e2ddd5;
+  border: 1px solid var(--skku-border);
   border-radius: 16px;
-  box-shadow: 0 12px 30px rgba(62, 50, 34, 0.07);
+  box-shadow: 0 12px 30px var(--skku-shadow);
   overflow: hidden;
 }
 .panel-head {
@@ -36,5 +91,5 @@
 }
 
 .panel-head h2 svg {
-  color: #2f8a3b;
+  color: var(--skku-green-600);
 }

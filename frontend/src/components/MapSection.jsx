@@ -159,7 +159,7 @@ export default function MapSection({ restaurants = [], selectedId, onHover, onOp
 
         const script = document.createElement("script");
         script.id = "kakao-map-script";
-        script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&autoload=false`;
+        script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(apiKey)}&autoload=false`;
         script.async = true;
         script.addEventListener("load", onReady, { once: true });
         script.addEventListener("error", () => reject(new Error("Failed to load Kakao Maps")), {
@@ -182,6 +182,9 @@ export default function MapSection({ restaurants = [], selectedId, onHover, onOp
 
       const map = new window.kakao.maps.Map(container, options);
       mapInstanceRef.current = map;
+      window.setTimeout(() => {
+        map.relayout();
+      }, 0);
 
       setMapStatus("ready");
       clearTimeout(timeoutId);
@@ -296,7 +299,7 @@ export default function MapSection({ restaurants = [], selectedId, onHover, onOp
         border:1px solid rgba(0,0,0,0.06);
         font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       ">
-        <div style="font-weight:800;color:#e66a00;margin-bottom:4px;">${r.name}</div>
+        <div style="font-weight:800;color:#166534;margin-bottom:4px;">${r.name}</div>
         <div style="font-size:12px;color:#4b443e;line-height:1.35;">${r.address}</div>
       </div>
     `;

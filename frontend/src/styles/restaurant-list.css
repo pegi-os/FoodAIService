@@ -21,29 +21,44 @@
   display: flex;
   gap: 9px;
   margin-bottom: 14px;
+  padding: 2px 2px 8px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--skku-green-300) transparent;
+}
+
+.category-row::-webkit-scrollbar {
+  height: 5px;
+}
+
+.category-row::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--skku-green-300);
 }
 
 .category-chip {
-  border: 1px solid #e4ded5;
+  flex: 0 0 auto;
+  border: 1px solid var(--skku-border);
   background: white;
   min-width: 74px;
   height: 36px;
   border-radius: 999px;
-  color: #504842;
+  color: var(--skku-green-800);
   font-weight: 750;
   cursor: pointer;
   transition: 0.15s ease;
 }
 
 .category-chip:hover {
-  border-color: #e66a00;
+  border-color: var(--skku-green-500);
 }
 
 .category-chip.active {
-  background: #e66a00;
-  border-color: #e66a00;
+  background: linear-gradient(135deg, var(--skku-green-800), var(--skku-green-500));
+  border-color: var(--skku-green-600);
   color: #fff;
-  box-shadow: 0 8px 18px rgba(230, 106, 0, 0.18);
+  box-shadow: 0 8px 18px rgba(22, 101, 52, 0.2);
 }
 
 .restaurant-list {
@@ -62,7 +77,7 @@
   grid-template-columns: 132px 1fr;
   gap: 16px;
   text-align: left;
-  border: 1px solid #ece6dd;
+  border: 1px solid var(--skku-border);
   background: white;
   border-radius: 13px;
   padding: 13px;
@@ -73,14 +88,22 @@
 .restaurant-card:hover,
 .restaurant-card.selected {
   transform: translateY(-1px);
-  border-color: #e66a00;
-  box-shadow: 0 8px 22px rgba(230, 106, 0, 0.12);
+  border-color: var(--skku-green-500);
+  box-shadow: 0 8px 22px var(--skku-shadow);
 }
 
 .card-info h3 {
-  margin: 2px 0 5px;
+  margin: 2px 0 0;
   font-size: 18px;
   letter-spacing: -0.5px;
+}
+
+.card-title-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  margin-bottom: 6px;
 }
 
 .meta {
@@ -97,15 +120,13 @@
   font-size: 14px;
 }
 
-.score-badge {
-  min-width: 64px;
-  height: 32px;
-  border-radius: 9px;
-  display: grid;
-  place-items: center;
-  color: white;
-  font-weight: 900;
-  font-size: 15px;
+.card-rating {
+  display: inline-flex;
+  align-items: center;
+  color: var(--skku-green-600);
+  font-size: 12px;
+  font-weight: 850;
+  line-height: 1;
 }
 
 .tag-row {
@@ -116,8 +137,8 @@
 }
 
 .tag-row span {
-  background: #f6eadc;
-  color: #8b4a19;
+  background: var(--skku-green-100);
+  color: var(--skku-green-800);
   border-radius: 6px;
   padding: 5px 9px;
   font-size: 12px;

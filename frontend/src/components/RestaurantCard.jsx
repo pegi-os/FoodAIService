@@ -19,13 +19,11 @@ export default function RestaurantCard({ restaurant, selected, onOpen, onHover }
       className={`restaurant-card ${selected ? "selected" : ""}`}
       type="button"
     >
-      <FoodThumb color={restaurant.color} />
+      <FoodThumb category={restaurant.category} color={restaurant.color} />
       <div className="card-info">
         <div className="card-title-row">
           <h3>{restaurant.name}</h3>
-          <div className={`score-badge ${restaurant.score >= 4.5 ? "orange" : "green"}`}>
-            AI {restaurant.score}
-          </div>
+          <span className="card-rating">✮ {restaurant.score}</span>
         </div>
         <p className="meta">
           <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>

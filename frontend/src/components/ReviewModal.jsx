@@ -35,7 +35,7 @@ export default function ReviewModal({ restaurant, onClose }) {
         </button>
 
         <div className="modal-top">
-          <FoodThumb color={restaurant.color} />
+          <FoodThumb category={restaurant.category} color={restaurant.color} />
           <div className="modal-title-block">
             <h2>{restaurant.name}</h2>
             <p>
@@ -51,7 +51,6 @@ export default function ReviewModal({ restaurant, onClose }) {
             <div>
               <Sparkles size={17} /> AI {restaurant.score}
             </div>
-            <p>리뷰 {restaurant.reviewCount}개 기반</p>
           </div>
         </div>
 
@@ -120,4 +119,3 @@ export default function ReviewModal({ restaurant, onClose }) {
     </div>
   );
 }
-

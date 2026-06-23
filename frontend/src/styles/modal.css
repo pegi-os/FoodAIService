@@ -2,7 +2,7 @@
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgba(21, 19, 18, 0.56);
+  background: rgba(5, 46, 27, 0.58);
   backdrop-filter: blur(3px);
   display: grid;
   place-items: center;
@@ -76,7 +76,7 @@
   font-size: 21px;
   padding: 10px 18px;
   border-radius: 13px;
-  background: linear-gradient(135deg, #e86a00, #f29d26);
+  background: linear-gradient(135deg, var(--skku-green-900), var(--skku-green-500));
 }
 
 .modal-score p {
@@ -108,7 +108,7 @@
   place-items: center;
   width: 28px;
   height: 28px;
-  background: #f07a12;
+  background: var(--skku-green-600);
   color: white;
   border-radius: 8px;
   font-size: 13px;
@@ -173,8 +173,8 @@
 }
 
 .keyword-row span {
-  background: #f2eadf;
-  color: #5c4a37;
+  background: var(--skku-green-100);
+  color: var(--skku-green-800);
   border-radius: 999px;
   padding: 7px 13px;
   font-size: 13px;
@@ -234,7 +234,7 @@
 }
 
 .insight-card svg {
-  color: #e66a00;
+  color: var(--skku-green-600);
   flex: none;
 }
 

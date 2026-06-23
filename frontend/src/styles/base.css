@@ -2,11 +2,28 @@
   box-sizing: border-box;
 }
 
+:root {
+  --skku-green-950: #052e1b;
+  --skku-green-900: #0b3d25;
+  --skku-green-800: #14532d;
+  --skku-green-700: #166534;
+  --skku-green-600: #16803d;
+  --skku-green-500: #22a559;
+  --skku-green-300: #86d5a5;
+  --skku-green-100: #dcf5e5;
+  --skku-green-50: #f0faf3;
+  --skku-cream: #fbfdf9;
+  --skku-ink: #163022;
+  --skku-muted: #607568;
+  --skku-border: #cfe2d5;
+  --skku-shadow: rgba(11, 61, 37, 0.12);
+}
+
 body {
   margin: 0;
   font-family: Inter, Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #f8f5ef;
-  color: #211c18;
+  background: var(--skku-green-50);
+  color: var(--skku-ink);
 }
 
 button {

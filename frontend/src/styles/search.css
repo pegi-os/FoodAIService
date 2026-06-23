@@ -1,9 +1,13 @@
+.search-area {
+  margin-bottom: 18px;
+}
+
 .search-row {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 14px;
-  margin-bottom: 18px;
+  margin-bottom: 0;
 }
 
 .search-box {
@@ -12,12 +16,12 @@
   align-items: center;
   gap: 14px;
   background: white;
-  border: 1px solid #ded8ce;
+  border: 1px solid var(--skku-border);
   border-radius: 12px;
   padding: 0 18px;
   height: 52px;
-  box-shadow: 0 7px 18px rgba(42, 35, 27, 0.055);
-  color: #7a726b;
+  box-shadow: 0 7px 18px var(--skku-shadow);
+  color: var(--skku-green-700);
 }
 
 .search-box input {
@@ -29,12 +33,12 @@
   background: transparent;
 }
 
-.location-btn {
+.weather-btn {
   height: 52px;
   border-radius: 12px;
-  border: 1px solid #eda85f;
-  background: #fffaf4;
-  color: #e66a00;
+  border: 1px solid var(--skku-green-300);
+  background: var(--skku-green-50);
+  color: var(--skku-green-700);
   font-size: 14px;
   font-weight: 800;
   padding: 0 22px;
@@ -42,4 +46,81 @@
   align-items: center;
   gap: 8px;
   cursor: pointer;
+  white-space: nowrap;
+}
+
+.weather-btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.weather-spinner {
+  animation: weather-spin 0.9s linear infinite;
+}
+
+.weather-panel {
+  width: min(1020px, 82vw);
+  margin: 10px auto 0;
+  padding: 14px 16px;
+  border: 1px solid var(--skku-border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 10px 24px var(--skku-shadow);
+}
+
+.weather-panel__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.weather-panel__head > div {
+  display: grid;
+  gap: 3px;
+}
+
+.weather-panel__head strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--skku-green-800);
+  font-size: 14px;
+}
+
+.weather-panel__head span {
+  color: var(--skku-muted);
+  font-size: 12px;
+}
+
+.weather-panel__head button {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--skku-green-50);
+  color: var(--skku-green-800);
+  cursor: pointer;
+}
+
+.weather-panel p {
+  margin: 10px 0 0;
+  color: var(--skku-ink);
+  font-size: 14px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.weather-panel--error {
+  border-color: #fecdd3;
+  background: #fff1f2;
+}
+
+@keyframes weather-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

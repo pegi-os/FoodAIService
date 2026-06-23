@@ -205,7 +205,7 @@
 }
 
 .map-marker.active::before {
-  background: #ef7400;
+  background: var(--skku-green-900);
   transform: rotate(-45deg) scale(1.12);
 }
 
@@ -246,7 +246,7 @@
 
 .map-bubble strong {
   display: block;
-  color: #e66a00;
+  color: var(--skku-green-700);
   margin-top: 3px;
   font-size: 16px;
 }
