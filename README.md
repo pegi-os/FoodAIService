@@ -37,6 +37,8 @@ Then replace the placeholder values in the two local `.env` files. Never commit 
 - `OPENAI_API_KEY`: required for the AI server
 - `OPENAI_MODEL`: optional model name, defaults to `gpt-4o-mini`
 - `FOODAI_SQLITE_PATH`: optional override for the SQLite file
+- `LLM_CANDIDATE_LIMIT`: first LLM pass shortlist size, defaults to `15` (10-20)
+- `RAG_REVIEWS_PER_CANDIDATE`: detailed reviews loaded per shortlisted restaurant, defaults to `2`
 - `VITE_KAKAO_API_KEY`: Kakao Maps JavaScript key
 - `VITE_AI_API_BASE_URL`: frontend URL for the AI server, defaults to `http://localhost:8000`
 
@@ -63,3 +65,11 @@ From the repo root, run:
 This starts the Node backend, the FastAPI AI server, and the Vite frontend, then prints the service URLs.
 
 The frontend launcher now uses Vite preview after a fresh build, which avoids the blank-page issue from the dev optimizer path.
+
+## RAG chat pipeline
+
+채팅 추천은 수동 키워드 가중치 대신 다음의 2단계 LLM 파이프라인을 사용합니다.
+
+1. 1차 LLM이 모든 음식점의 압축된 Agent 1 프로필을 비교해 후보 10~20개를 고릅니다.
+2. 서버가 선택된 후보에 대해서만 상세 프로필과 실제 리뷰를 SQLite에서 읽습니다.
+3. 2차 LLM이 상세 근거를 비교해 최종 1~3곳을 추천하고 답변을 스트리밍합니다.

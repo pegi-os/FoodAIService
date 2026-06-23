@@ -63,13 +63,18 @@ export default function ChatDock() {
           }
 
           if (event === "meta" && data) {
+            // 1차 후보 15곳은 내부에서만 사용하고, 2차 LLM이 최종 선택한
+            // 1~3곳의 대표 리뷰만 사용자 화면에 저장합니다.
             setMessages((current) =>
               current.map((message) =>
                 message.id === assistantId
                   ? {
                       ...message,
                       sources: data.retrieved_reviews || [],
-                      model: data.model
+                      model: data.model,
+                      recommendationCount: data.recommendation_count || 0,
+                      shortlistCount: data.shortlist_count || 0,
+                      retrievalStrategy: data.retrieval_strategy
                     }
                   : message
               )
@@ -132,7 +137,10 @@ export default function ChatDock() {
                 </div>
                 {message.sources?.length ? (
                   <div className="chat-sources">
-                    <p className="chat-sources__label">Retrieved reviews</p>
+                    <p className="chat-sources__label">
+                      최종 추천 리뷰
+                      {message.recommendationCount ? ` (${message.recommendationCount}곳)` : ""}
+                    </p>
                     <div className="chat-sources__list">
                       {message.sources.map((source) => (
                         <div
@@ -148,7 +156,7 @@ export default function ChatDock() {
                 ) : null}
               </article>
             ))}
-            {isSending ? <div className="chat-status">Searching related reviews...</div> : null}
+            {isSending ? <div className="chat-status">AI가 후보를 비교하고 있어요...</div> : null}
             {error ? <div className="chat-error">{error}</div> : null}
             <div ref={bottomRef} />
           </div>
