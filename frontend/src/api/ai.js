@@ -22,7 +22,7 @@ export async function sendChatMessageStream({ message, history = [], topK = 6, o
 
   if (!res.ok || !res.body) {
     const detail = await res.text();
-    throw new Error(detail || `POST /chat/stream failed (${res.status})`);
+    throw new Error(detail || `채팅 요청에 실패했어요 (${res.status})`);
   }
 
   const reader = res.body.getReader();
@@ -62,7 +62,7 @@ export async function getWeatherRecommendation({ latitude, longitude }) {
 
   const payload = await res.json();
   if (!res.ok) {
-    throw new Error(payload.detail || `POST /weather/recommendation failed (${res.status})`);
+    throw new Error(payload.detail || `날씨 추천 요청에 실패했어요 (${res.status})`);
   }
   return payload;
 }

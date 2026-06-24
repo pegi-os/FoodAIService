@@ -168,6 +168,13 @@ export default function App() {
     setModalRestaurant(restaurant);
   };
 
+  const openDetailById = (restaurantId) => {
+    const restaurant = restaurants.find((item) => String(item.id) === String(restaurantId));
+    if (restaurant) {
+      openDetail(restaurant);
+    }
+  };
+
   return (
     <AppErrorBoundary>
       <div className="app">
@@ -193,7 +200,7 @@ export default function App() {
         </main>
 
         <ReviewModal restaurant={modalRestaurant} onClose={() => setModalRestaurant(null)} />
-        <ChatDock />
+        <ChatDock onOpenRestaurant={openDetailById} />
       </div>
     </AppErrorBoundary>
   );

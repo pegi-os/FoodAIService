@@ -1,4 +1,4 @@
-.chat-toggle {
+﻿.chat-toggle {
   position: fixed;
   right: 1.25rem;
   bottom: 1.25rem;
@@ -99,6 +99,8 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  scroll-margin-top: 1rem;
+  scroll-margin-bottom: 1rem;
 }
 
 .chat-message--user {
@@ -115,7 +117,33 @@
   padding: 0.85rem 0.95rem;
   line-height: 1.55;
   font-size: 0.95rem;
-  white-space: pre-wrap;
+  white-space: normal;
+}
+
+.chat-markdown-paragraph {
+  margin: 0;
+}
+
+.chat-markdown-paragraph + .chat-markdown-paragraph,
+.chat-markdown-list + .chat-markdown-paragraph,
+.chat-markdown-paragraph + .chat-markdown-list,
+.chat-markdown-list + .chat-markdown-list {
+  margin-top: 0.65rem;
+}
+
+.chat-markdown-list {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.chat-markdown-list li + li {
+  margin-top: 0.35rem;
+}
+
+.chat-bubble a {
+  color: #b4f1c4;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 
 .chat-message--user .chat-bubble {
@@ -141,29 +169,66 @@
 }
 
 .chat-sources {
-  width: 100%;
+  width: 88%;
+  box-sizing: border-box;
+  border-radius: 16px;
+  padding: 0.05rem 0.85rem 0.6rem;
+  background: rgba(20, 83, 45, 0.38);
+  border: 1px solid rgba(134, 213, 165, 0.14);
 }
 
-.chat-sources__label {
-  margin: 0 0 0.35rem;
+.chat-sources__summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0.55rem 0 0.45rem;
+  list-style: none;
   font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #d7f0df;
+  cursor: pointer;
+  user-select: none;
+}
+
+.chat-sources__summary::-webkit-details-marker {
+  display: none;
+}
+
+.chat-sources__summary::after {
+  content: "v";
+  font-size: 0.8rem;
   color: #a7c9b2;
+  transition: transform 0.2s ease;
+}
+
+.chat-sources[open] .chat-sources__summary::after {
+  transform: rotate(180deg);
 }
 
 .chat-sources__list {
   display: grid;
-  gap: 0.5rem;
+  gap: 0.35rem;
+  padding-bottom: 0.15rem;
 }
 
 .chat-source-card {
+  width: 100%;
+  text-align: left;
+  appearance: none;
   display: grid;
-  gap: 0.15rem;
-  border-radius: 14px;
-  padding: 0.7rem 0.8rem;
+  gap: 0.1rem;
+  border-radius: 12px;
+  padding: 0.55rem 0.75rem;
   background: rgba(20, 83, 45, 0.72);
   border: 1px solid rgba(134, 213, 165, 0.14);
+  color: #e2e8f0;
+  cursor: pointer;
+}
+
+.chat-source-card:hover {
+  background: rgba(34, 165, 89, 0.22);
 }
 
 .chat-source-card strong {
@@ -249,3 +314,4 @@
     bottom: 0.75rem;
   }
 }
+
