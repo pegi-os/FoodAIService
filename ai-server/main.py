@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import sqlite3
 import json
+import re
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlencode
@@ -27,6 +28,10 @@ MAX_HISTORY_ITEMS = int(os.getenv("CHAT_HISTORY_LIMIT", "8"))
 LLM_CANDIDATE_LIMIT = max(10, min(20, int(os.getenv("LLM_CANDIDATE_LIMIT", "15"))))
 # 1차 LLM이 고른 음식점마다 2차 LLM에게 보여줄 실제 리뷰 개수입니다.
 REVIEWS_PER_CANDIDATE = max(1, min(4, int(os.getenv("RAG_REVIEWS_PER_CANDIDATE", "2"))))
+PREFILTER_POOL_LIMIT = max(
+    LLM_CANDIDATE_LIMIT * 2,
+    min(80, int(os.getenv("LLM_PREFILTER_LIMIT", "60"))),
+)
 
 app = FastAPI(title="FoodAI RAG Server", version="1.0.0")
 
@@ -46,6 +51,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+_RESTAURANT_PROFILE_CACHE: list[dict[str, Any]] | None = None
+_RESTAURANT_PROFILE_CACHE_STATE: tuple[float, int] | None = None
+SEARCH_TOKEN_RE = re.compile(r"[0-9A-Za-z가-힣]+")
 
 
 class ChatMessage(BaseModel):
@@ -101,6 +110,39 @@ def open_db() -> sqlite3.Connection:
     conn = sqlite3.connect(f"file:{DB_PATH.as_posix()}?mode=ro", uri=True)
     conn.row_factory = sqlite3.Row
     return conn
+
+
+def get_restaurant_profiles() -> list[dict[str, Any]]:
+    global _RESTAURANT_PROFILE_CACHE, _RESTAURANT_PROFILE_CACHE_STATE
+
+    if not DB_PATH.exists():
+        raise HTTPException(status_code=500, detail=f"SQLite database not found: {DB_PATH}")
+
+    db_stat = DB_PATH.stat()
+    current_state = (db_stat.st_mtime, db_stat.st_size)
+    if _RESTAURANT_PROFILE_CACHE is not None and _RESTAURANT_PROFILE_CACHE_STATE == current_state:
+        return _RESTAURANT_PROFILE_CACHE
+
+    with open_db() as conn:
+        profiles = fetch_restaurant_profiles(conn)
+
+    for profile in profiles:
+        searchable_parts = [
+            profile.get("name", ""),
+            profile.get("category", ""),
+            profile.get("address", ""),
+            profile.get("summary", ""),
+            profile.get("atmosphere", ""),
+            profile.get("value_for_money", ""),
+            profile.get("revisit_intent", ""),
+            " ".join(profile.get("keywords", [])),
+            " ".join(profile.get("recommended_for", [])),
+        ]
+        profile["_search_text"] = " ".join(part for part in searchable_parts if part).lower()
+
+    _RESTAURANT_PROFILE_CACHE = profiles
+    _RESTAURANT_PROFILE_CACHE_STATE = current_state
+    return profiles
 
 
 def excerpt(text: str, max_length: int = 180) -> str:
@@ -183,6 +225,49 @@ def compact_profile(profile: dict[str, Any]) -> dict[str, Any]:
         "recommended_for": [excerpt(item, 60) for item in profile["recommended_for"][:3]],
         "keywords": profile["keywords"][:8],
     }
+
+
+def extract_query_tokens(query_text: str, history: list[ChatMessage]) -> list[str]:
+    searchable_text = " ".join(
+        [
+            query_text,
+            " ".join(item.content for item in history[-3:] if item.role == "user"),
+        ]
+    ).lower()
+    return [token for token in SEARCH_TOKEN_RE.findall(searchable_text) if len(token) >= 2]
+
+
+def shortlist_profiles_for_query(
+    query_text: str,
+    history: list[ChatMessage],
+    profiles: list[dict[str, Any]],
+    shortlist_limit: int = PREFILTER_POOL_LIMIT,
+) -> list[dict[str, Any]]:
+    if len(profiles) <= shortlist_limit:
+        return profiles
+
+    tokens = extract_query_tokens(query_text, history)
+    if not tokens:
+        return profiles[:shortlist_limit]
+
+    scored_profiles: list[tuple[int, int, dict[str, Any]]] = []
+    query_lower = query_text.lower()
+    for index, profile in enumerate(profiles):
+        searchable_text = profile.get("_search_text", "")
+        score = 0
+        if query_lower and query_lower in searchable_text:
+            score += 8
+        for token in tokens:
+            if token in searchable_text:
+                score += 1
+        if score:
+            scored_profiles.append((score, index, profile))
+
+    if len(scored_profiles) < max(10, shortlist_limit // 2):
+        return profiles[:shortlist_limit]
+
+    scored_profiles.sort(key=lambda item: (-item[0], item[1]))
+    return [profile for _, _, profile in scored_profiles[:shortlist_limit]]
 
 
 def select_candidate_profiles(
@@ -446,10 +531,11 @@ def prepare_chat_recommendation(
     client = get_openai_client()
 
     # 1) 모든 음식점의 Agent 1 프로필을 읽습니다.
-    with open_db() as conn:
-        profiles = fetch_restaurant_profiles(conn)
+    profiles = get_restaurant_profiles()
     if not profiles:
         raise HTTPException(status_code=500, detail="Restaurant profiles are empty.")
+
+    shortlisted_profiles = shortlist_profiles_for_query(query_text, request.history, profiles)
 
     # 2) LLM이 압축 프로필 전체를 보고 후보 10~20개를 직접 선택합니다.
     try:
@@ -457,7 +543,7 @@ def prepare_chat_recommendation(
             client=client,
             query_text=query_text,
             history=request.history,
-            profiles=profiles,
+            profiles=shortlisted_profiles,
             candidate_limit=request.candidate_limit,
         )
     except Exception as error:
@@ -469,7 +555,7 @@ def prepare_chat_recommendation(
 
     # 3) 선택된 후보만 실제 리뷰를 조회해 최종 답변의 근거로 사용합니다.
     with open_db() as conn:
-        evidence = fetch_candidate_evidence(conn, profiles, candidate_ids)
+        evidence = fetch_candidate_evidence(conn, shortlisted_profiles, candidate_ids)
     return client, candidate_ids, query_analysis, evidence
 
 
