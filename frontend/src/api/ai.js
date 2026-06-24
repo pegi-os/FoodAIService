@@ -7,7 +7,8 @@ const parseSseBlock = (block) => {
   return { event, data: dataLine ? JSON.parse(dataLine) : null };
 };
 
-export async function sendChatMessageStream({ message, history = [], topK = 6, onEvent }) {
+export async function sendChatMessageStream({ message, history = [], candidateLimit = 15, onEvent }) {
+  // 질문과 최근 대화를 AI 서버로 보냅니다. candidate_limit은 1차 LLM이 고를 후보 수입니다.
   const res = await fetch(`${AI_API_BASE_URL}/chat/stream`, {
     method: "POST",
     headers: {
@@ -16,7 +17,7 @@ export async function sendChatMessageStream({ message, history = [], topK = 6, o
     body: JSON.stringify({
       message,
       history,
-      top_k: topK
+      candidate_limit: candidateLimit
     })
   });
 

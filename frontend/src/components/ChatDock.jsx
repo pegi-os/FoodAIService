@@ -196,7 +196,10 @@ export default function ChatDock({ onOpenRestaurant }) {
                   ? {
                       ...message,
                       sources: data.retrieved_reviews || [],
-                      model: data.model
+                      model: data.model,
+                      recommendationCount: data.recommendation_count || 0,
+                      shortlistCount: data.shortlist_count || 0,
+                      retrievalStrategy: data.retrieval_strategy
                     }
                   : message
               )
